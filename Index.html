@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DragonNew17 — Portfolio</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-alt: #111111;
+    --card: #141414;
+    --card-hover: #1a1a1a;
+    --border: #262626;
+    --border-hover: #404040;
+    --text: #d4d4d4;
+    --muted: #737373;
+    --accent: #22c55e;
+    --accent-dim: rgba(34, 197, 94, 0.15);
+    --link: #60a5fa;
+    --danger: #ef4444;
+    --danger-dim: rgba(239, 68, 68, 0.1);
+    --warn: #f59e0b;
+    --warn-dim: rgba(245, 158, 11, 0.1);
+    --info: #60a5fa;
+    --info-dim: rgba(96, 165, 250, 0.1);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167, 139, 250, 0.1);
+    --tg: #2AABEE;
+    --tg-dim: rgba(42, 171, 238, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "SF Mono", "Cascadia Code", "Fira Code", "JetBrains Mono", Consolas, monospace;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  /* --- 3D CUBES BACKGROUND --- */
+  .cubes-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .cube {
+    position: absolute;
+    width: var(--size, 100px);
+    height: var(--size, 100px);
+    transform-style: preserve-3d;
+    animation: fly var(--dur, 20s) linear infinite;
+    will-change: transform;
+    opacity: 0.8;
+  }
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(34, 197, 94, 0.6);
+    background: rgba(34, 197, 94, 0.03);
+    box-shadow: inset 0 0 20px rgba(34, 197, 94, 0.15), 0 0 15px rgba(34, 197, 94, 0.1);
+    backface-visibility: visible;
+  }
+  .face.front  { transform: translateZ(calc(var(--size, 100px) / 2)); }
+  .face.back   { transform: rotateY(180deg) translateZ(calc(var(--size, 100px) / 2)); }
+  .face.right  { transform: rotateY(90deg) translateZ(calc(var(--size, 100px) / 2)); }
+  .face.left   { transform: rotateY(-90deg) translateZ(calc(var(--size, 100px) / 2)); }
+  .face.top    { transform: rotateX(90deg) translateZ(calc(var(--size, 100px) / 2)); }
+  .face.bottom { transform: rotateX(-90deg) translateZ(calc(var(--size, 100px) / 2)); }
+
+  @keyframes fly {
+    0%   { transform: translate(-20vw, 110vh) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    25%  { transform: translate(25vw, 70vh) rotateX(90deg) rotateY(90deg) rotateZ(45deg); }
+    50%  { transform: translate(60vw, 30vh) rotateX(180deg) rotateY(180deg) rotateZ(90deg); }
+    75%  { transform: translate(90vw, -10vh) rotateX(270deg) rotateY(270deg) rotateZ(135deg); }
+    100% { transform: translate(120vw, -60vh) rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+  }
+
+  .cube-1 { --size: 80px;  left: -10vw; top: 110vh; --dur: 18s; animation-delay: 0s; }
+  .cube-2 { --size: 140px; left: 20vw;  top: 110vh; --dur: 28s; animation-delay: 6s; }
+  .cube-3 { --size: 60px;  left: 50vw;  top: 110vh; --dur: 15s; animation-delay: 3s; }
+  .cube-4 { --size: 110px; left: 70vw;  top: 110vh; --dur: 24s; animation-delay: 12s; }
+  .cube-5 { --size: 90px;  left: 30vw;  top: 110vh; --dur: 22s; animation-delay: 9s; }
+  .cube-6 { --size: 50px;  left: 85vw;  top: 110vh; --dur: 14s; animation-delay: 15s; }
+  .cube-7 { --size: 120px; left: -5vw;  top: 110vh; --dur: 32s; animation-delay: 18s; }
+
+  .cubes-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background: linear-gradient(to bottom, transparent 0%, var(--bg) 85%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .logo svg { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    transition: color 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: inherit;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .section-header p {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 13px;
+    max-width: 600px;
+  }
+
+  .hero {
+    padding: 80px 0 60px;
+    text-align: left;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(5px);
+  }
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+  .hero h1 .gradient-text {
+    color: var(--accent);
+    -webkit-text-fill-color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 560px;
+    margin: 0 0 28px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-decoration: none;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000000;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover {
+    background: #16a34a;
+    border-color: #16a34a;
+    text-decoration: none;
+  }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover {
+    border-color: var(--border-hover);
+    background: var(--card);
+    text-decoration: none;
+  }
+  .btn-danger {
+    background: transparent;
+    border-color: rgba(239, 68, 68, 0.4);
+    color: var(--danger);
+  }
+  .btn-danger:hover {
+    border-color: var(--danger);
+    background: var(--danger-dim);
+    text-decoration: none;
+  }
+  .btn-tg {
+    background: var(--tg-dim);
+    border-color: rgba(42, 171, 238, 0.4);
+    color: var(--tg);
+  }
+  .btn-tg:hover {
+    border-color: var(--tg);
+    background: rgba(42, 171, 238, 0.25);
+    text-decoration: none;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .project {
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    transition: border-color 0.15s;
+    backdrop-filter: blur(8px);
+  }
+  .project:hover {
+    border-color: var(--border-hover);
+  }
+  .project.danger:hover {
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  .project-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .project-icon {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+  .project-icon.danger { color: var(--danger); }
+  .project-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .tag-open {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+  .tag-closed {
+    background: rgba(115, 115, 115, 0.1);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .tag-virus {
+    background: var(--danger-dim);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  .tag-lvl-low {
+    background: var(--info-dim);
+    color: var(--info);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+  }
+  .tag-lvl-very {
+    background: var(--danger-dim);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  .tag-lvl-progress {
+    background: var(--purple-dim);
+    color: var(--purple);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+  }
+
+  .project h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .project p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .project-features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .project-features li {
+    font-size: 11px;
+    padding: 3px 8px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--muted);
+  }
+  .project-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .project-stack {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .stack-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--link);
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .project-link:hover { text-decoration: underline; }
+  .project-link.disabled {
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .project-link.disabled:hover { text-decoration: none; }
+
+  .warning-box {
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-left: 3px solid var(--warn);
+    border-radius: 6px;
+    padding: 24px;
+    margin-top: 32px;
+    backdrop-filter: blur(8px);
+  }
+  .warning-box-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: var(--warn);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .warning-box p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+  .warning-box p strong { color: var(--text); }
+  .warning-box p:last-child { margin-bottom: 0; }
+  .warning-box a { color: var(--accent); }
+  .warning-box a:hover { text-decoration: underline; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+  }
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .skill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text);
+    backdrop-filter: blur(5px);
+  }
+  .skill svg { color: var(--accent); }
+
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .interest {
+    padding: 20px;
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color 0.15s;
+    backdrop-filter: blur(8px);
+  }
+  .interest:hover {
+    border-color: var(--border-hover);
+  }
+  .interest-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .interest-icon.danger { color: var(--danger); }
+  .interest h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #ffffff;
+  }
+  .interest p {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .contact-card {
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 40px 32px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+  .contact-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+  .contact-card p {
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 13px;
+  }
+  .contact-card .hero-actions { justify-content: center; }
+
+  footer {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    position: relative;
+    z-index: 2;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(8px);
+  }
+  footer .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .socials {
+    display: flex;
+    gap: 10px;
+  }
+  footer .socials a {
+    color: var(--muted);
+    transition: color 0.15s;
+    display: inline-flex;
+    padding: 4px;
+  }
+  footer .socials a:hover {
+    color: var(--accent);
+  }
+  footer .socials a.tg-link:hover {
+    color: var(--tg);
+  }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero { padding: 50px 0 40px; }
+    section { padding: 44px 0; }
+    .contact-card { padding: 28px 20px; }
+    footer .footer-inner { justify-content: center; text-align: center; }
+    .projects { grid-template-columns: 1fr; }
+    .cube { --size: 50px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cubes-bg">
+  <div class="cube cube-1">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-2">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-3">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-4">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-5">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-6">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cube cube-7">
+    <div class="face front"></div><div class="face back"></div>
+    <div class="face right"></div><div class="face left"></div>
+    <div class="face top"></div><div class="face bottom"></div>
+  </div>
+  <div class="cubes-overlay"></div>
+</div>
+
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      DragonNew17
+    </div>
+    <ul class="nav-links">
+      <li><a href="#projects">Проекты</a></li>
+      <li><a href="#viruses">Вредоносное ПО</a></li>
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#interests">Направления</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Открыт для сотрудничества
+      </div>
+      <h1>Разработчик <span class="gradient-text">системного ПО</span> и загрузчиков</h1>
+      <p>Управление UEFI, разработка загрузчиков, веб-приложения, WPF/Electron, игры, ПО для восстановления системы и вредоносное ПО для тестирования. Python как основа.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7h18M3 12h18M3 17h18"/>
+          </svg>
+          Смотреть проекты
+        </a>
+        <a href="https://github.com/drag3009go" target="_blank" rel="noopener" class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02 0 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-header">
+        <div class="section-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          Проекты
+        </div>
+        <h2>Избранные работы</h2>
+        <p>От экспериментальных соцсетей до утилит для работы с прошивками UEFI.</p>
+      </div>
+
+      <div class="projects">
+
+        <article class="project">
+          <div class="project-head">
+            <div class="project-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M14.5 9.5c-.5-.7-1.4-1-2.5-1-1.4 0-2.5.7-2.5 1.7s1 1.4 2.5 1.7c1.5.3 2.5.8 2.5 1.8s-1.1 1.7-2.5 1.7c-1.1 0-2-.3-2.5-1"/>
+                <path d="M12 6v12"/>
+              </svg>
+            </div>
+            <span class="project-tag tag-closed">Private</span>
+          </div>
+          <h3>CoinSocial</h3>
+          <p>Экспериментальный тест-проект социальной сети с уникальной системой вовлечения и эстетичным дизайном интерфейса.</p>
+          <ul class="project-features">
+            <li>Лайки</li>
+            <li>Комментарии</li>
+            <li>Монетки</li>
+            <li>Кастомный дизайн</li>
+          </ul>
+          <div class="project-footer">
+            <span class="project-stack">
+              <span class="stack-dot" style="background:#f1e05a"></span>
+              <span class="stack-dot" style="background:#563d7c"></span>
+              <span class="stack-dot" style="background:#3572A5"></span>
+              HTML / CSS / JS · Python
+            </span>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <div class="project-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <path d="M7 9h10M7 13h6M7 17h8"/>
+              </svg>
+            </div>
+            <span class="project-tag tag-open">Open Source</span>
+          </div>
+          <h3>NVRAM Manager</h3>
+          <p>Открытое ПО для просмотра, редактирования и удаления записей NVRAM в UEFI. Активно развивается.</p>
+          <ul class="project-features">
+            <li>Просмотр записей</li>
+            <li>Редактирование</li>
+            <li>Удаление</li>
+            <li>UEFI</li>
+          </ul>
+          <div class="project-footer">
+            <span class="project-stack">
+              <span class="stack-dot" style="background:#3572A5"></span>
+              Python
+            </span>
+            <a href="https://github.com/drag3009go/NVRAM-MANAGER" target="_blank" rel="noopener" class="project-link">
+              Репозиторий
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="viruses">
+      <div class="section-header">
+        <div class="section-label" style="color: var(--danger);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Вредоносное ПО
+        </div>
+        <h2>Вредоносное ПО и эксперименты</h2>
+        <p>Учебные и тестовые разработки. Все репозитории закрыты — исходники не публикуются в открытом доступе.</p>
+      </div>
+
+      <div class="projects">
+
+        <article class="project danger">
+          <div class="project-head">
+            <div class="project-icon danger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v6M12 16v6M2 12h6M16 12h6"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <span class="project-tag tag-lvl-low">1 LVL — LOW</span>
+          </div>
+          <h3>Kasptuzki</h3>
+          <p>Экспериментальный проект с подменой драйверов. Добавлял драйвера, которые крашили систему — ничего большего, чисто тест на поведение ядра.</p>
+          <ul class="project-features">
+            <li>Драйвера</li>
+            <li>Kernel crash</li>
+            <li>Тест ядра</li>
+          </ul>
+          <div class="project-footer">
+            <span class="project-stack">
+              <span class="stack-dot" style="background:#3572A5"></span>
+              Python · C
+            </span>
+            <span class="project-link disabled">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              Приватный
+            </span>
+          </div>
+        </article>
+
+        <article class="project danger">
+          <div class="project-head">
+            <div class="project-icon danger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-3-6.7"/>
+                <path d="M21 3v6h-6"/>
+              </svg>
+            </div>
+            <span class="project-tag tag-lvl-very">2 LVL — VERY</span>
+          </div>
+          <h3>Srum</h3>
+          <p>Модификация загрузчика. Изменял поведение boot-цепочки для тестирования загрузки и обхода стандартных проверок.</p>
+          <ul class="project-features">
+            <li>Bootloader</li>
+            <li>Модификация</li>
+            <li>UEFI</li>
+          </ul>
+          <div class="project-footer">
+            <span class="project-stack">
+              <span class="stack-dot" style="background:#3572A5"></span>
+              <span class="stack-dot" style="background:#555555"></span>
+              Python · ASM
+            </span>
+            <span class="project-link disabled">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              Приватный
+            </span>
+          </div>
+        </article>
+
+        <article class="project danger">
+          <div class="project-head">
+            <div class="project-icon danger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/>
+              </svg>
+            </div>
+            <span class="project-tag tag-lvl-progress">3 LVL — In progress</span>
+          </div>
+          <h3>Svin Launcher</h3>
+          <p>Лучшая версия лончера — сочетает в себе красивый дизайн интерфейса и мощную начинку. Мой самый проработанный проект в этой категории.</p>
+          <ul class="project-features">
+            <li>Красивый UI</li>
+            <li>Launcher</li>
+            <li>Вирус-модуль</li>
+            <li>Top версия</li>
+          </ul>
+          <div class="project-footer">
+            <span class="project-stack">
+              <span class="stack-dot" style="background:#3572A5"></span>
+              <span class="stack-dot" style="background:#f1e05a"></span>
+              Python · JS
+            </span>
+            <span class="project-link disabled">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              Приватный
+            </span>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="warning-box">
+        <div class="warning-box-head">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Внимание
+        </div>
+        <p><strong>Вирусы делать не законно</strong> — это статья. Но делать их <strong>для блогера Nedohacker Lite</strong> — можно: он проверяет их сам и платит за них деньги. Это легально по условиям оферты на его сайте.</p>
+        <p>Ознакомьтесь с условиями оферты и другими документами на сайте: <a href="https://nedohackers.site" target="_blank" rel="noopener">nedohackers.site</a></p>
+        <p>Всё, что вы делаете — делаете на свой страх и риск. Автор не несёт ответственности за использование предоставленных материалов в противоправных целях.</p>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-header">
+        <div class="section-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M20 21a8 8 0 0 0-16 0"/>
+          </svg>
+          Обо мне
+        </div>
+        <h2>Немного о себе</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>Меня зовут <strong>DragonNew17</strong>. Разрабатываю системное и прикладное ПО — от утилит для работы с UEFI/NVRAM и загрузчиков до веб-приложений с нестандартным дизайном.</p>
+          <p>Основной стек — <strong>Python</strong>. Разбираюсь в низкоуровневых темах: загрузчики, прошивки, работа с железом. Также делаю сайты, десктопные приложения на <strong>WPF</strong> и <strong>Electron</strong>, разрабатываю игры, инструменты для восстановления системы и вредоносное ПО для тестирования.</p>
+
+          <div class="skills">
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Python
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+              UEFI / NVRAM
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Web
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              WPF
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+              Electron
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 11 10 7 14 11 18 7 22 11 22 19 2 19 2 11 6 11"/></svg>
+              GameDev
+            </span>
+            <span class="skill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Malware
+            </span>
+          </div>
+        </div>
+        <div class="about-text">
+          <p>Проекты развиваются в открытом формате — то, что можно опубликовать, публикуется на GitHub. Закрытые проекты (в том числе все вредоносное ПО) со временем могут стать доступными.</p>
+          <p>Открыт к предложениям по сотрудничеству, тестированию и обсуждению технических идей в области low-level разработки.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="interests">
+      <div class="section-header">
+        <div class="section-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/>
+          </svg>
+          Направления
+        </div>
+        <h2>Чем занимаюсь</h2>
+        <p>Области, в которых разрабатываю и экспериментирую.</p>
+      </div>
+      <div class="interests">
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <path d="M9 9h6v6H9z"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+            </svg>
+          </div>
+          <h4>Управление UEFI</h4>
+          <p>Работа с NVRAM, переменными, firmware.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h4>Загрузчики</h4>
+          <p>Разработка собственных bootloader'ов.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <h4>Веб-разработка</h4>
+          <p>Сайты и веб-приложения с анимациями.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <h4>WPF / Electron</h4>
+          <p>Десктопные приложения под Windows.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <path d="M6 12h4M14 12h4"/>
+            </svg>
+          </div>
+          <h4>Разработка игр</h4>
+          <p>Небольшие игровые проекты и прототипы.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-3-6.7"/>
+              <path d="M21 3v6h-6"/>
+            </svg>
+          </div>
+          <h4>Восстановление системы</h4>
+          <p>Утилиты для ремонта и восстановления.</p>
+        </div>
+        <div class="interest">
+          <div class="interest-icon danger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h4>Вредоносное ПО</h4>
+          <p>Тестовые разработки для блогеров.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-card">
+        <h2>Есть идея или вопрос?</h2>
+        <p>Свяжитесь через GitHub или Telegram — обсудим технические идеи, сотрудничество или проекты.</p>
+        <div class="hero-actions">
+          <a href="https://github.com/drag3009go" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02 0 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub профиль
+          </a>
+          <a href="https://t.me/dragonS3420" target="_blank" rel="noopener" class="btn btn-tg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            Telegram канал
+          </a>
+          <a href="https://nedohackers.site" target="_blank" rel="noopener" class="btn btn-danger">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            nedohackers.site
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>DragonNew17 — 2025</span>
+    <div class="socials">
+      <a href="https://github.com/drag3009go" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02 0 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+      </a>
+      <a href="https://t.me/dragonS3420" target="_blank" rel="noopener" aria-label="Telegram" class="tg-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
